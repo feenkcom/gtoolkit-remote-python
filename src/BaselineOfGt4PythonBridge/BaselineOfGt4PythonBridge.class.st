@@ -8,9 +8,11 @@ Class {
 BaselineOfGt4PythonBridge >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec baseline: 'DAPPythonBridge' with: [
-				spec repository: 'github://feenkcom/pharo-debugadapterprotocol:v0.5.154/src' ].
-		spec package: 'Gt4PythonBridge' with: [
-				spec requires: #('DAPPythonBridge' ). ]. ].
+		spec
+			baseline: 'DAPPythonBridge' with: [
+				spec repository: 'github://feenkcom/pharo-debugadapterprotocol:v0.5.155/src' ].
 
+		spec package: 'Gt4PythonBridge' with: [
+			spec requires: #('DAPPythonBridge') ].
+	]
 ]
