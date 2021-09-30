@@ -1,1 +1,1 @@
-Package { #name : 'BaselineOfGt4PythonBridge' }
+Package { #name : #BaselineOfGt4PythonBridge }
