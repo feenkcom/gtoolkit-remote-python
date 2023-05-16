@@ -17,7 +17,7 @@ PBPythonError >> gtPharoStackFor: aView [
 	
 	(signalContext isNil or: [ self signalerContext isNil ]) ifTrue: [ ^ aView empty ].
 	^ aView forward
-		title: 'Pharo Stack';
+		title: 'Pharo stack';
 		priority: 10;
 		object: [ self signalerContext ];
 		view: #gtStackFor:
