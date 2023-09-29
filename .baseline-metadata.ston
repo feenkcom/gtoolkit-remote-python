@@ -1,1 +1,5 @@
-{	"repositories" : {		"github://feenkcom/pharo-debugadapterprotocol/src" : "v0.5.217"	}}
+{
+	"repositories" : {
+		"github://feenkcom/pharo-debugadapterprotocol/src" : "v0.5.218"
+	}
+}
