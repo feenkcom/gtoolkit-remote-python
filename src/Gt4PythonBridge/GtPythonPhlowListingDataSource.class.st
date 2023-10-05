@@ -10,6 +10,13 @@ GtPythonPhlowListingDataSource class >> pythonClass [
 ]
 
 { #category : #accessing }
+GtPythonPhlowListingDataSource >> flushItemsIterator [
+	self newCommandFactory
+		<< (self => #flushItemsIterator) call;
+		sendAndWait
+]
+
+{ #category : #accessing }
 GtPythonPhlowListingDataSource >> retrieveItems: count fromIndex: startIndex [
 	^ self newCommandFactory
 		<< (self => #retrieveItems
