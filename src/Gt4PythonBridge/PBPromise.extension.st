@@ -4,7 +4,7 @@ Extension { #name : #PBPromise }
 PBPromise >> gtSummaryFor: aView [
 	<gtView>
 
-	(value isKindOf: PBPythonError) ifFalse: [ ^ aView empty ].
+	(value isKindOf: PharoLinkRemoteError) ifFalse: [ ^ aView empty ].
 	^ aView forward 
 		title: 'Summary';
 		priority: 1;
