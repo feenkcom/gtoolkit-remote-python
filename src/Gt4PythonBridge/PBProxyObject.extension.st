@@ -21,6 +21,13 @@ PBProxyObject >> declarativeViews [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> filterLocalProxyViews: localViews [ 
+	"When showing local views for the object, we remove all views where the method is annotated with gtProxy. Those views will only be shown for the proxy object."
+	^ localViews reject: [ :each |
+		each definingMethod compiledMethod hasPragmaNamed: #gtProxy ].
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> getDeclarativeViewFor: viewSelector [
 	^ self newCommandFactory
 		<< (self => #getDataSource callWith: {viewSelector});
@@ -52,6 +59,21 @@ PBProxyObject >> getViewProxy [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtDefaultInspectorTool [
+	^ GtPhlowCompositeTool new
+		addTool: (self gtRemoteSideInspectorTool
+			name: 'Remote';
+			playgroundPageStrategy: (LeInspectorPlaygroundProxyClassPageStrategy
+				forRemoteProxySide);
+			withLabelAndIconAptitude);
+		addTool: (super gtDefaultInspectorTool
+			name: 'Proxy';
+			playgroundPageStrategy: (LeInspectorPlaygroundProxyClassPageStrategy
+				forLocalProxySide);
+			withLabelAndIconAptitude)
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtLocalViewsFor: aView inContext: aContext [
 	| title resultingView |
 	title := String streamContents: [ :stream |
@@ -65,22 +87,85 @@ PBProxyObject >> gtLocalViewsFor: aView inContext: aContext [
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtViewsFor: aView inContext: aContext [
-	"Add the declarative views from the inspectors object to the inspectors views"
+PBProxyObject >> gtMetaFor: aView [
+	<gtProxy>
+	<gtView>
+	^ super gtMetaFor: aView
+]
 
-	| resultingView inspectorViews |
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtPrintFor: aView [
+	<gtProxy>
+	<gtView>
+	^ super gtPrintFor: aView
+]
 
-	resultingView := self gtLocalViewsFor: aView inContext: aContext.
-	inspectorViews := resultingView originalView views.
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRawFor: aView [
+	<gtProxy>
+	<gtView>
+	^ super gtRawFor: aView
+]
 
-	"Add the explicitly declarative views from the inspected object"
-	inspectorViews addAll: (self 
-		remoteViewsFor: aView inContext: aContext).
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteSideInitialPlaygroundSnippet [
+	^ LePythonSnippet new
+]
 
-	"Re-sort by priority"
-	inspectorViews := inspectorViews sorted: [ :a :b | a priority < b priority ].
-	resultingView originalView views: inspectorViews.
-	^resultingView
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteSideInspectorTool [
+	^ GtInspectorTool 
+		forObject: self 
+		viewSelector: #gtRemoteViewsFor: 
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteViewsFor: aView [
+	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
+	<return: #GtPhlowLabelledView>
+	
+	^ GtPhlowLabelledViewBuilder new
+		object: self;
+		view: aView;
+		context: GtPhlowContext new;
+		viewsSelector: #gtViewsForRemoteSideInContext:;
+		titleComputation: [
+			String streamContents: [ :stream |
+				stream
+					<< 'a(n): ';
+					<< (pythonClass ifNil: [ '<None>' ]) ]];
+		build 
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtViewsForRemoteSideInContext: aContext [
+	"This collects all views for the current object. This excludes the proxy-specific views (annotated with #gtProxy), and includes all remote views for the object, as well as all custom views defined locally"
+ 
+	| localViews collectedViews |
+	
+	"Get the views using the super call. 
+	This will use #gtView to compute the list of views for the local object."
+	localViews := super gtViewsInContext: aContext.
+	
+	collectedViews := OrderedCollection new
+		addAll: (self filterLocalProxyViews: localViews);
+		addAll: (self 
+			remoteViewsFor: GtPhlowEmptyView new 
+			inContext: aContext);
+		yourself.
+	GtPhlowUtility sortByPriority: collectedViews.
+	
+	^ collectedViews
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject class >> leProxyTypeForPlaygroundPage [
+	^ PBProxyObject
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> remoteClass [
+	^ pythonClass
 ]
 
 { #category : #'*Gt4PythonBridge' }
