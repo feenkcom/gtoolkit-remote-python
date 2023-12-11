@@ -82,7 +82,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 								when: BlClickEvent
 									do: [ :anEvent | 
 										anEvent consumed: true.
-										anEvent currentTarget phlow spawnObject: self ];
+										anEvent currentTarget phlow spawnObject: aBeacon first ];
 								geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 								border: (BlBorder paint: Color transparent width: (aWeight max: 0.1));
 								background: (BlLinearGradientPaint vertical
@@ -100,7 +100,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 				when: BlClickEvent
 					do: [ :anEvent | 
 						anEvent consumed: true.
-						anEvent currentTarget phlow spawnObject: self ];
+						anEvent currentTarget phlow spawnObject: aBeacon first ];
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical exact: 20 ];
