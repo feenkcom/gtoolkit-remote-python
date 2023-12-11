@@ -132,12 +132,4 @@ PBBeaconGroup >> gtBeaconMapView: aView [
 		priority: 3;
 		stencil: [  self
 				gtBarElements ]
-		
-"	^ aView columnedList
-		title: 'Map';
-		priority: 3;
-		items: [ self beaconList ];
-		column: 'Message' text: [ :each | self attributeOf: each at: #message ];
-		column: 'Start' text: [ :each | self attributeOf:  each at: #start ];
-		column: 'End' text: [ :each | self attributeOf:  each at: #end ]"
 ]
