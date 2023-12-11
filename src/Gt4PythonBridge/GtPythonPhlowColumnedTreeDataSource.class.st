@@ -1,7 +1,7 @@
 Class {
 	#name : #GtPythonPhlowColumnedTreeDataSource,
 	#superclass : #GtPythonPhlowColumnedListDataSource,
-	#category : #Gt4PythonBridge
+	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
