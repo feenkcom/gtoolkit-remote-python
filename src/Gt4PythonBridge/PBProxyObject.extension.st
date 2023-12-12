@@ -3,18 +3,13 @@ Extension { #name : #PBProxyObject }
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> declarativeViews [
 	"Answer the views for the receiver"
-	| rawViews  |
+	| rawViews |
 
 	self viewProxyDo: [ :remoteInspectorProxy |
-		| viewSelectors |
-		viewSelectors := remoteInspectorProxy getDeclarativeViewMethodNames.
-		rawViews := viewSelectors collect: [ :viewSelector |
-			| viewDictionary declarativeView |
-			viewDictionary := remoteInspectorProxy getViewDeclaration: viewSelector.
+		rawViews := remoteInspectorProxy getViewsDeclarations collect: [ :viewDictionary |
+			| declarativeView |
 			declarativeView := GtPhlowViewSpecification fromDictionary: viewDictionary.
-			declarativeView
-				methodSelector: viewSelector;
-				initializeFromInspector: remoteInspectorProxy.
+			declarativeView initializeFromInspector: remoteInspectorProxy.
 			declarativeView ] ].
 
 	^ rawViews
@@ -55,6 +50,13 @@ PBProxyObject >> getViewProxy [
 	^ self application newCommandFactory
 		<< (#gtoolkit asP3GI => #gt) import;
 		<< (#gtoolkit asP3GI => #gt => #GtViewedObject callWith: {self});
+		sendAndWait
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> getViewsDeclarations [
+	^ self newCommandFactory
+		<< (self => #getViewsDeclarations) call;
 		sendAndWait
 ]
 
