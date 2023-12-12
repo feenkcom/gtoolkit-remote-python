@@ -59,20 +59,20 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 
 	taskElements := aWeight > 0.1
 			ifTrue: [ | myDuration |
-				myDuration := self durationOf: aBeacon first.
+				myDuration := self durationOf: aBeacon.
 
-				aBeacon second
+				aBeacon children
 					collect: [ :anEvent | 
 						| eachWeight |
 						eachWeight := myDuration isZero
 								ifTrue: [ 0 ]
-								ifFalse: [ ((self durationOf: anEvent first) / myDuration) asFloat ].
+								ifFalse: [ ((self durationOf: anEvent) / myDuration) asFloat ].
 						(self
 							gtBarElementsFor: anEvent
 							withGlobalWeight: eachWeight * aWeight
 							local: eachWeight)
 							constraintsDo: [ :c | c linear weight: (eachWeight max: 0.001) ] ] ]
-			ifFalse: [ aBeacon second
+			ifFalse: [ aBeacon children
 					ifEmpty: [ #() ]
 					ifNotEmpty: [ {BlElement new
 								layout: BlLinearLayout horizontal;
@@ -82,7 +82,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 								when: BlClickEvent
 									do: [ :anEvent | 
 										anEvent consumed: true.
-										anEvent currentTarget phlow spawnObject: aBeacon first ];
+										anEvent currentTarget phlow spawnObject: aBeacon ];
 								geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 								border: (BlBorder paint: Color transparent width: (aWeight max: 0.1));
 								background: (BlLinearGradientPaint vertical
@@ -100,7 +100,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 				when: BlClickEvent
 					do: [ :anEvent | 
 						anEvent consumed: true.
-						anEvent currentTarget phlow spawnObject: aBeacon first ];
+						anEvent currentTarget phlow spawnObject: aBeacon ];
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical exact: 20 ];
@@ -113,7 +113,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 						ifTrue: [ aPane
 								addChild: (BrLabel new
 										aptitude: (BrGlamorousLabelAptitude new fontSize: 10);
-										text: (self attributeOf: aBeacon first at: #message)) asScalableElement ] ];
+										text: (self attributeOf: aBeacon at: #message)) asScalableElement ] ];
 				yourself);
 		addChild: (BlElement new
 				layout: (BlLinearLayout horizontal alignTopCenter weightSum: 1);
