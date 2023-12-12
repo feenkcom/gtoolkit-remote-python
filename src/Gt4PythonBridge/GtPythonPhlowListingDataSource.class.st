@@ -1,7 +1,7 @@
 Class {
 	#name : #GtPythonPhlowListingDataSource,
 	#superclass : #PBProxyObject,
-	#category : #Gt4PythonBridge
+	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }

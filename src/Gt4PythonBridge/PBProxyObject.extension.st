@@ -181,6 +181,13 @@ PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> unwrapPrimitiveTypes [
+	^ self application commandFactory
+		<< self;
+		sendAndWait
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> viewProxyDo: aBlock [
 	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
 
