@@ -28,6 +28,18 @@ PBBeacon >> attributeOf: aProxy at: attributeString [
 ]
 
 { #category : #accessing }
+PBBeacon >> children [
+	^self attributeAt: #children
+]
+
+{ #category : #accessing }
+PBBeacon >> duration [
+	^ self newCommandFactory
+		<< (self => #duration callWith: #());
+		sendAndWait
+]
+
+{ #category : #accessing }
 PBBeacon >> file [
 	| filename model |
 	filename := (self attributeAt: #file) asFileReference.
@@ -59,4 +71,9 @@ PBBeacon >> gtSourceFor: aView [
 { #category : #accessing }
 PBBeacon >> line [
 	^self attributeAt: #line
+]
+
+{ #category : #accessing }
+PBBeacon >> message [
+	^self attributeAt: #message
 ]
