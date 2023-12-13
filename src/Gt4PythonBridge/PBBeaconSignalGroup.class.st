@@ -19,20 +19,6 @@ PBBeaconSignalGroup >> attributeOf: aProxy at: attributeString [
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> beaconList [
-	^ self newCommandFactory
-		<< (self => #get_beacons callWith: #());
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBBeaconSignalGroup >> beaconTree [
-	^ self newCommandFactory
-		<< (self => #get_beacon_tree callWith: #());
-		sendAndWait
-]
-
-{ #category : #accessing }
 PBBeaconSignalGroup >> durationOf: aBeaconProxy [
 	^ self newCommandFactory
 		<< (aBeaconProxy => #duration callWith: #());
@@ -42,7 +28,7 @@ PBBeaconSignalGroup >> durationOf: aBeaconProxy [
 { #category : #accessing }
 PBBeaconSignalGroup >> gtBarElements [
 	| tree |
-	tree := self beaconTree.
+	tree := self signalTree.
 	^ self
 		gtBarElementsFor: tree first
 		withGlobalWeight: 1.0
@@ -132,4 +118,18 @@ PBBeaconSignalGroup >> gtBeaconMapView: aView [
 		priority: 3;
 		stencil: [  self
 				gtBarElements ]
+]
+
+{ #category : #accessing }
+PBBeaconSignalGroup >> signalList [
+	^ self newCommandFactory
+		<< (self => #get_signals callWith: #());
+		sendAndWait
+]
+
+{ #category : #accessing }
+PBBeaconSignalGroup >> signalTree [
+	^ self newCommandFactory
+		<< (self => #get_signal_tree callWith: #());
+		sendAndWait
 ]
