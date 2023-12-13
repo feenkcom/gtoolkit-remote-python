@@ -23,27 +23,6 @@ PBProxyObject >> filterLocalProxyViews: localViews [
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getDeclarativeViewFor: viewSelector [
-	^ self newCommandFactory
-		<< (self => #getDataSource callWith: {viewSelector});
-		sendAndWait
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getDeclarativeViewMethodNames [
-	^ self newCommandFactory
-		<< (self => #getGtViewMethodNames) call;
-		sendAndWait
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getViewDeclaration: viewSelector [
-	^ self newCommandFactory
-		<< (self => #getViewDeclaration callWith: {viewSelector});
-		sendAndWait
-]
-
-{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> getViewProxy [
 	"Answer a GtViewedProxy on the receiver"
 
@@ -54,10 +33,18 @@ PBProxyObject >> getViewProxy [
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getViewsDeclarations [
-	^ self newCommandFactory
-		<< (self => #getViewsDeclarations) call;
-		sendAndWait
+PBProxyObject >> gtActionDownloadFor: anAction [
+	<gtAction>
+
+	(#(int str) includes: self remoteClass) 
+		ifFalse: [ ^ anAction noAction ].
+	
+	^ anAction button
+		priority: 1;
+		icon: BrGlamorousVectorIcons down;
+		tooltip: 'Download local instance';
+		action: [ :button |
+			button phlow spawnObject: self unwrapPrimitiveTypes ].
 ]
 
 { #category : #'*Gt4PythonBridge' }
@@ -178,13 +165,6 @@ PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 		on: LanguageLinkServerNotRunningError
 		do: [ #() ].
 
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> retrieveViewSpecificationForForwarding [
-	^ self newCommandFactory
-		<< (self => #getViewSpecificationForForwarding) call;
-		sendAndWait
 ]
 
 { #category : #'*Gt4PythonBridge' }
