@@ -23,7 +23,7 @@ PBBeaconSignalGroup >> gtBeaconMapView: aView [
 		title: 'Map';
 		priority: 3;
 		stencil: [  self
-				gtBarElements ] 
+				gtBarElements ]
 ]
 
 { #category : #accessing }

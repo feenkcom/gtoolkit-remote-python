@@ -51,6 +51,11 @@ PBBeaconSignal >> file [
 ]
 
 { #category : #accessing }
+PBBeaconSignal >> gtBarElements [
+	^ self gtBarElementsWithGlobalWeight: 1.0 local: 1.0
+]
+
+{ #category : #accessing }
 PBBeaconSignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 	| taskElements aBarColor |
 	aBarColor := BlColorTransition
@@ -125,10 +130,21 @@ PBBeaconSignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 ]
 
 { #category : #accessing }
+PBBeaconSignal >> gtBeaconMapView: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Map';
+		priority: 1;
+		stencil: [  self
+				gtBarElements ]
+]
+
+{ #category : #accessing }
 PBBeaconSignal >> gtSourceFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Source';
+		priority: 2;
 		object: [ GtLSPFileLocation new
 				lspFile: self file;
 				startPosition: (GtLSPPositionStructure new
