@@ -1,16 +1,16 @@
 Class {
-	#name : #PBBeaconGroup,
+	#name : #PBBeaconSignalGroup,
 	#superclass : #PBProxyObject,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBBeaconGroup class >> pythonClass [
-	^ #BeaconGroup
+PBBeaconSignalGroup class >> pythonClass [
+	^ #BeaconSignalGroup
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> attributeOf: aProxy at: attributeString [
+PBBeaconSignalGroup >> attributeOf: aProxy at: attributeString [
 	"Answer the value of the named attribute"
 
 	^ self newCommandFactory
@@ -19,28 +19,28 @@ PBBeaconGroup >> attributeOf: aProxy at: attributeString [
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> beaconList [
+PBBeaconSignalGroup >> beaconList [
 	^ self newCommandFactory
 		<< (self => #get_beacons callWith: #());
 		sendAndWait
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> beaconTree [
+PBBeaconSignalGroup >> beaconTree [
 	^ self newCommandFactory
 		<< (self => #get_beacon_tree callWith: #());
 		sendAndWait
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> durationOf: aBeaconProxy [
+PBBeaconSignalGroup >> durationOf: aBeaconProxy [
 	^ self newCommandFactory
 		<< (aBeaconProxy => #duration callWith: #());
 		sendAndWait 
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> gtBarElements [
+PBBeaconSignalGroup >> gtBarElements [
 	| tree |
 	tree := self beaconTree.
 	^ self
@@ -50,7 +50,7 @@ PBBeaconGroup >> gtBarElements [
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLocalWeight [
+PBBeaconSignalGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLocalWeight [
 	| taskElements aBarColor |
 	aBarColor := BlColorTransition
 			interpolate: Color veryLightGray
@@ -125,7 +125,7 @@ PBBeaconGroup >> gtBarElementsFor: aBeacon withGlobalWeight: aWeight local: aLoc
 ]
 
 { #category : #accessing }
-PBBeaconGroup >> gtBeaconMapView: aView [
+PBBeaconSignalGroup >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Map';

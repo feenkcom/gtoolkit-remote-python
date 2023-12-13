@@ -1,16 +1,16 @@
 Class {
-	#name : #PBBeacon,
+	#name : #PBBeaconSignal,
 	#superclass : #PBProxyObject,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBBeacon class >> pythonClass [
-	^ #Beacon
+PBBeaconSignal class >> pythonClass [
+	^ #BeaconSignal
 ]
 
 { #category : #accessing }
-PBBeacon >> attributeAt: attributeString [
+PBBeaconSignal >> attributeAt: attributeString [
 	"Answer the value of the named attribute"
 
 	^ self newCommandFactory
@@ -19,7 +19,7 @@ PBBeacon >> attributeAt: attributeString [
 ]
 
 { #category : #accessing }
-PBBeacon >> attributeOf: aProxy at: attributeString [
+PBBeaconSignal >> attributeOf: aProxy at: attributeString [
 	"Answer the value of the named attribute"
 
 	^ self newCommandFactory
@@ -28,19 +28,19 @@ PBBeacon >> attributeOf: aProxy at: attributeString [
 ]
 
 { #category : #accessing }
-PBBeacon >> children [
+PBBeaconSignal >> children [
 	^self attributeAt: #children
 ]
 
 { #category : #accessing }
-PBBeacon >> duration [
+PBBeaconSignal >> duration [
 	^ self newCommandFactory
 		<< (self => #duration callWith: #());
 		sendAndWait
 ]
 
 { #category : #accessing }
-PBBeacon >> file [
+PBBeaconSignal >> file [
 	| filename model |
 	filename := (self attributeAt: #file) asFileReference.
 	model := GtLSPPythonModel onDirectory:  filename parent.
@@ -51,7 +51,7 @@ PBBeacon >> file [
 ]
 
 { #category : #accessing }
-PBBeacon >> gtSourceFor: aView [
+PBBeaconSignal >> gtSourceFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Source';
@@ -69,11 +69,11 @@ PBBeacon >> gtSourceFor: aView [
 ]
 
 { #category : #accessing }
-PBBeacon >> line [
+PBBeaconSignal >> line [
 	^self attributeAt: #line
 ]
 
 { #category : #accessing }
-PBBeacon >> message [
+PBBeaconSignal >> message [
 	^self attributeAt: #message
 ]
