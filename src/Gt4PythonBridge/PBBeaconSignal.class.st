@@ -130,6 +130,21 @@ PBBeaconSignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 ]
 
 { #category : #accessing }
+PBBeaconSignal >> gtBeaconConsolidatedView: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Consolidated';
+		priority: 4;
+		items: [ (self children groupedBy: #message) associations ];
+		column: 'Message' text: [ :item | item key ];
+		column: 'Count' text: [ :item | item value size ];
+		column: 'Duration %'
+			text: [ :item | 
+				(item value inject: 0 into: [ :sum :each | sum + each duration ])
+					/ self duration asFloat * 100.0 printShowingDecimalPlaces: 3 ]
+]
+
+{ #category : #accessing }
 PBBeaconSignal >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit

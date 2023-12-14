@@ -17,13 +17,29 @@ PBBeaconSignalGroup >> gtBarElements [
 ]
 
 { #category : #accessing }
+PBBeaconSignalGroup >> gtBeaconConsolidatedView: aView [
+	<gtView>
+	^ aView forward
+		title: 'Consolidated';
+		object: [ self signalList first ];
+		view: #gtBeaconConsolidatedView:
+]
+
+{ #category : #accessing }
 PBBeaconSignalGroup >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Map';
 		priority: 3;
 		stencil: [  self
-				gtBarElements ]
+				gtBarElements ] 
+]
+
+{ #category : #accessing }
+PBBeaconSignalGroup >> gtConsolidatedBarElements [
+	| tree |
+	tree := self signalTree.
+	^ tree first gtConsolidatedBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
 
 { #category : #accessing }
