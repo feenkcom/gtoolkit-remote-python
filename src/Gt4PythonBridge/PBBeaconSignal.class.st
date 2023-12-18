@@ -135,7 +135,14 @@ PBBeaconSignal >> gtBeaconConsolidatedView: aView [
 	^ aView columnedList
 		title: 'Consolidated';
 		priority: 4;
-		items: [ (self children groupedBy: #message) associations ];
+		items: [ | groups |
+			groups := (self children groupedBy: #message) associations.
+			groups
+				do: [ :assoc | 
+					assoc value first class == PBArgumentBeaconSignal
+						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ] ].
+			groups ];
+		send: [:assoc | assoc value];
 		column: 'Message' text: [ :item | item key ];
 		column: 'Count' text: [ :item | item value size ];
 		column: 'Duration %'
