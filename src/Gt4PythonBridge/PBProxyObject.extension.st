@@ -111,19 +111,19 @@ PBProxyObject >> gtRemoteSideInspectorTool [
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRemoteViewsFor: aView [
 	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
+
 	<return: #GtPhlowLabelledView>
-	
 	^ GtPhlowLabelledViewBuilder new
 		object: self;
 		view: aView;
 		context: GtPhlowContext new;
 		viewsSelector: #gtViewsForRemoteSideInContext:;
-		titleComputation: [
-			String streamContents: [ :stream |
-				stream
-					<< 'a(n): ';
-					<< (pythonClass ifNil: [ '<None>' ]) ]];
-		build 
+		titleComputation: [ String
+				streamContents: [ :stream | 
+					stream
+						<< (pythonClass first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]);
+						<< (pythonClass ifNil: [ '<None>' ]) ] ];
+		build
 ]
 
 { #category : #'*Gt4PythonBridge' }
