@@ -140,9 +140,11 @@ PBBeaconSignal >> gtBeaconConsolidatedView: aView [
 			groups
 				do: [ :assoc | 
 					assoc value first class == PBArgumentBeaconSignal
-						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ] ].
+						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ].
+					assoc value first class == PushUmlBeaconSignal
+						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ] ].
 			groups ];
-		send: [:assoc | assoc value];
+		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];
 		column: 'Count' text: [ :item | item value size ];
 		column: 'Duration %'
