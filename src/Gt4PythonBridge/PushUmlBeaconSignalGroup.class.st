@@ -13,6 +13,11 @@ PushUmlBeaconSignalGroup class >> signals: aCollection [
 ]
 
 { #category : #accessing }
+PushUmlBeaconSignalGroup >> getGeoData [
+	
+]
+
+{ #category : #accessing }
 PushUmlBeaconSignalGroup >> gtArgViewFor: aView [
 	<gtView>
 	| view |
@@ -38,9 +43,12 @@ PushUmlBeaconSignalGroup >> gtViewFor: aView [
 	view := aView columnedList
 			title: 'Routes';
 			priority: 2;
-			items: [ signals collect: #entlastungsroute ];
+			items: [ signals ];
 			column: 'route'
-				text: [ :item | 'Length: ' , item length printString , ' ' , item pythonString ].
+				text: [ :item | 
+					| ent |
+					ent := item entlastungsroute.
+					'Length: ' , ent length printString , ' ' , ent pythonString ].
 	^ view
 ]
 

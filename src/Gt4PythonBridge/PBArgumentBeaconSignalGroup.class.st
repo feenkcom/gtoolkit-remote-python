@@ -13,6 +13,11 @@ PBArgumentBeaconSignalGroup class >> signals: aCollection [
 ]
 
 { #category : #accessing }
+PBArgumentBeaconSignalGroup >> first [
+	^signals first
+]
+
+{ #category : #accessing }
 PBArgumentBeaconSignalGroup >> gtViewFor: aView [
 	<gtView>
 	| view |
