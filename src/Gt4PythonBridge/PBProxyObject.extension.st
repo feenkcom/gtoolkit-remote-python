@@ -36,7 +36,7 @@ PBProxyObject >> getViewProxy [
 PBProxyObject >> gtActionDownloadFor: anAction [
 	<gtAction>
 
-	(#(int str bool float64) includes: self remoteClass) 
+	(#(int str bool float) includes: self remoteClass) 
 		ifFalse: [ ^ anAction noAction ].
 	
 	^ anAction button
