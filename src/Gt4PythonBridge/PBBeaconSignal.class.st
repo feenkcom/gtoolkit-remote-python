@@ -10,6 +10,11 @@ PBBeaconSignal class >> pythonClass [
 ]
 
 { #category : #accessing }
+PBBeaconSignal >> allChildren [
+	^ self children , (self children flatCollect: #children)
+]
+
+{ #category : #accessing }
 PBBeaconSignal >> attributeAt: attributeString [
 	"Answer the value of the named attribute"
 
@@ -136,13 +141,13 @@ PBBeaconSignal >> gtBeaconConsolidatedView: aView [
 		title: 'Consolidated';
 		priority: 4;
 		items: [ | groups |
-			groups := (self children groupedBy: #message) associations.
+			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
 					assoc value first class == PBArgumentBeaconSignal
 						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ].
-					assoc value first class == PushUmlBeaconSignal
-						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ] ].
+					"assoc value first class == PushUmlBeaconSignal
+						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ]" ].
 			groups ];
 		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];
