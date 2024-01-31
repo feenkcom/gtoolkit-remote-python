@@ -1,21 +1,16 @@
 Class {
-	#name : #PBBeaconSignal,
+	#name : #PBTelemetrySignal,
 	#superclass : #PBProxyObject,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBBeaconSignal class >> pythonClass [
-	^ #BeaconSignal
+PBTelemetrySignal class >> pythonClass [
+	^ #TelemetrySignal
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> allChildren [
-	^ self children , (self children flatCollect: #children)
-]
-
-{ #category : #accessing }
-PBBeaconSignal >> attributeAt: attributeString [
+PBTelemetrySignal >> attributeAt: attributeString [
 	"Answer the value of the named attribute"
 
 	^ self newCommandFactory
@@ -24,28 +19,7 @@ PBBeaconSignal >> attributeAt: attributeString [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> attributeOf: aProxy at: attributeString [
-	"Answer the value of the named attribute"
-
-	^ self newCommandFactory
-		<< (aProxy => attributeString);
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBBeaconSignal >> children [
-	^self attributeAt: #children
-]
-
-{ #category : #accessing }
-PBBeaconSignal >> duration [
-	^ self newCommandFactory
-		<< (self => #duration callWith: #());
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBBeaconSignal >> file [
+PBTelemetrySignal >> file [
 	| filename model |
 	filename := (self attributeAt: #file) asFileReference.
 	model := GtLSPPythonModel onDirectory:  filename parent.
@@ -56,12 +30,12 @@ PBBeaconSignal >> file [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> gtBarElements [
+PBTelemetrySignal >> gtBarElements [
 	^ self gtBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
+PBTelemetrySignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 	| taskElements aBarColor |
 	aBarColor := BlColorTransition
 			interpolate: Color veryLightGray
@@ -135,7 +109,7 @@ PBBeaconSignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> gtBeaconConsolidatedView: aView [
+PBTelemetrySignal >> gtBeaconConsolidatedView: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Consolidated';
@@ -159,7 +133,7 @@ PBBeaconSignal >> gtBeaconConsolidatedView: aView [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> gtBeaconMapView: aView [
+PBTelemetrySignal >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Map';
@@ -169,7 +143,7 @@ PBBeaconSignal >> gtBeaconMapView: aView [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> gtSourceFor: aView [
+PBTelemetrySignal >> gtSourceFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Source';
@@ -188,11 +162,11 @@ PBBeaconSignal >> gtSourceFor: aView [
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> line [
+PBTelemetrySignal >> line [
 	^self attributeAt: #line
 ]
 
 { #category : #accessing }
-PBBeaconSignal >> message [
+PBTelemetrySignal >> message [
 	^self attributeAt: #message
 ]

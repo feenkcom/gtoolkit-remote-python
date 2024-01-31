@@ -1,6 +1,6 @@
 Class {
 	#name : #PBArgumentBeaconSignal,
-	#superclass : #PBBeaconSignal,
+	#superclass : #PBMethodStartSignal,
 	#category : #'Gt4PythonBridge-Core'
 }
 
