@@ -109,6 +109,20 @@ PBProxyObject >> gtRemoteSideInspectorTool [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteViewSpecificationsFor: aView [
+	<gtProxy>
+	<gtView>
+	^ aView columnedList
+		title: 'Remote view specifications';
+		priority: 10001;
+		items: [ self declarativeViews ];
+		column: 'Title' text: [ :aViewAccessor | aViewAccessor title ];
+		column: 'Selector' text: [ :aViewAccessor | aViewAccessor methodSelector ];
+		column: 'Priority' text: [ :aViewAccessor | aViewAccessor priority ];
+		send: [ :aDeclarativeView | aDeclarativeView ]
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRemoteViewsFor: aView [
 	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
 
