@@ -1,23 +1,30 @@
 Class {
-	#name : #PBBeaconSignalGroup,
+	#name : #PBTelemetrySignalGroup,
 	#superclass : #PBProxyObject,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBBeaconSignalGroup class >> pythonClass [
-	^ #BeaconSignalGroup
+PBTelemetrySignalGroup class >> pythonClass [
+	^ #TelemetrySignalGroup
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> gtBarElements [
+PBTelemetrySignalGroup >> eventTree [
+	^ self newCommandFactory
+		<< (self => #get_event_tree callWith: #());
+		sendAndWait
+]
+
+{ #category : #accessing }
+PBTelemetrySignalGroup >> gtBarElements [
 	| tree |
-	tree := self signalTree.
+	tree := self eventTree.
 	^ tree first gtBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> gtBeaconConsolidatedView: aView [
+PBTelemetrySignalGroup >> gtBeaconConsolidatedView: aView [
 	<gtView>
 	^ aView forward
 		title: 'Consolidated';
@@ -26,7 +33,7 @@ PBBeaconSignalGroup >> gtBeaconConsolidatedView: aView [
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> gtBeaconMapView: aView [
+PBTelemetrySignalGroup >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Map';
@@ -36,21 +43,21 @@ PBBeaconSignalGroup >> gtBeaconMapView: aView [
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> gtConsolidatedBarElements [
+PBTelemetrySignalGroup >> gtConsolidatedBarElements [
 	| tree |
-	tree := self signalTree.
+	tree := self eventTree.
 	^ tree first gtConsolidatedBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> signalList [
+PBTelemetrySignalGroup >> signalList [
 	^ self newCommandFactory
 		<< (self => #get_signals callWith: #());
 		sendAndWait
 ]
 
 { #category : #accessing }
-PBBeaconSignalGroup >> signalTree [
+PBTelemetrySignalGroup >> signalTree [
 	^ self newCommandFactory
 		<< (self => #get_signal_tree callWith: #());
 		sendAndWait
