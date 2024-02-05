@@ -1,31 +1,12 @@
 Class {
 	#name : #PBTelemetryEvent,
-	#superclass : #PBProxyObject,
+	#superclass : #PBTelemetry,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
 PBTelemetryEvent class >> pythonClass [
 	^#TelemetryEvent
-]
-
-{ #category : #accessing }
-PBTelemetryEvent >> allChildren [
-	^ self children , (self children flatCollect: #children)
-]
-
-{ #category : #accessing }
-PBTelemetryEvent >> children [
-	^ self newCommandFactory
-		<< (self => 'children');
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBTelemetryEvent >> duration [
-	^ self newCommandFactory
-		<< (self => #duration callWith: #());
-		sendAndWait
 ]
 
 { #category : #accessing }
@@ -117,10 +98,10 @@ PBTelemetryEvent >> gtBeaconConsolidatedView: aView [
 			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
-					assoc value first class == PBArgumentBeaconSignal
-						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ].
-					"assoc value first class == PushUmlBeaconSignal
-						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ]" ].
+					assoc value first class == PBArgumentMethodStartSignal
+						ifTrue: [ assoc value: (PBArgumentMethodStartSignalGroup signals: assoc value) ].
+					assoc value first class == PushUmlSignal
+						ifTrue: [ assoc value: (PushUmlSignalGroup signals: assoc value) ] ].
 			groups ];
 		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];

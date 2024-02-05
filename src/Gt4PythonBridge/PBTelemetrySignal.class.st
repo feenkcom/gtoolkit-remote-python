@@ -1,6 +1,6 @@
 Class {
 	#name : #PBTelemetrySignal,
-	#superclass : #PBProxyObject,
+	#superclass : #PBTelemetry,
 	#category : #'Gt4PythonBridge-Core'
 }
 
@@ -118,8 +118,8 @@ PBTelemetrySignal >> gtBeaconConsolidatedView: aView [
 			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
-					assoc value first class == PBArgumentBeaconSignal
-						ifTrue: [ assoc value: (PBArgumentBeaconSignalGroup signals: assoc value) ].
+					assoc value first class == PBArgumentMethodStartSignal
+						ifTrue: [ assoc value: (PBArgumentMethodStartSignalGroup signals: assoc value) ].
 					"assoc value first class == PushUmlBeaconSignal
 						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ]" ].
 			groups ];
