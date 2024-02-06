@@ -17,7 +17,7 @@ PBTelemetry >> allChildren [
 { #category : #accessing }
 PBTelemetry >> children [
 	^ self newCommandFactory
-		<< (self => 'children');
+		<< (self => 'children' callWith: #());
 		sendAndWait
 ]
 
