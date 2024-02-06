@@ -26,8 +26,8 @@ PBArgumentMethodStartSignalGroup >> gtViewFor: aView [
 			priority: 1;
 			items: [ signals ];
 			column: 'duration' text: [ :item | item duration ].
-	signals first args
-		keysDo: [ :each | view column: each text: [ :item | item args at: each ] ].
+	signals first startSignal args
+		keysDo: [ :each | view column: each text: [ :item | item startSignal args at: each ] ].
 	^ view
 ]
 
