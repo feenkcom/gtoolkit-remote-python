@@ -98,9 +98,9 @@ PBTelemetryEvent >> gtBeaconConsolidatedView: aView [
 			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
-					assoc value first class == PBArgumentMethodStartSignal
+					assoc value first startSignal class == PBArgumentMethodStartSignal
 						ifTrue: [ assoc value: (PBArgumentMethodStartSignalGroup signals: assoc value) ].
-					assoc value first class == PushUmlSignal
+					assoc value first startSignal class == PushUmlSignal
 						ifTrue: [ assoc value: (PushUmlSignalGroup signals: assoc value) ] ].
 			groups ];
 		send: [ :assoc | assoc value ];
@@ -133,5 +133,12 @@ PBTelemetryEvent >> message [
 PBTelemetryEvent >> signals [
 	^ self newCommandFactory
 		<< (self => 'signals');
+		sendAndWait
+]
+
+{ #category : #accessing }
+PBTelemetryEvent >> startSignal [
+	^ self newCommandFactory
+		<< (self => 'startSignal');
 		sendAndWait
 ]
