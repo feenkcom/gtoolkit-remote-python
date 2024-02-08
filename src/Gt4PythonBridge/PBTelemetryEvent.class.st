@@ -1,41 +1,21 @@
 Class {
-	#name : #PBTelemetrySignal,
+	#name : #PBTelemetryEvent,
 	#superclass : #PBTelemetry,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBTelemetrySignal class >> pythonClass [
-	^ #TelemetrySignal
+PBTelemetryEvent class >> pythonClass [
+	^#TelemetryEvent
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> attributeAt: attributeString [
-	"Answer the value of the named attribute"
-
-	^ self newCommandFactory
-		<< (self => attributeString);
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBTelemetrySignal >> file [
-	| filename model |
-	filename := (self attributeAt: #file) asFileReference.
-	model := GtLSPPythonModel onDirectory:  filename parent.
-	^ GtLSPFileModel new
-		filename: filename;
-		directory: model;
-		yourself
-]
-
-{ #category : #accessing }
-PBTelemetrySignal >> gtBarElements [
+PBTelemetryEvent >> gtBarElements [
 	^ self gtBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
+PBTelemetryEvent >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 	| taskElements aBarColor |
 	aBarColor := BlColorTransition
 			interpolate: Color veryLightGray
@@ -51,7 +31,7 @@ PBTelemetrySignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight 
 						| eachWeight |
 						eachWeight := myDuration isZero
 								ifTrue: [ 0 ]
-								ifFalse: [ ((anEvent duration) / myDuration) asFloat ].
+								ifFalse: [ (anEvent duration / myDuration) asFloat ].
 						(anEvent
 							gtBarElementsWithGlobalWeight: eachWeight * aWeight
 							local: eachWeight)
@@ -97,7 +77,7 @@ PBTelemetrySignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight 
 						ifTrue: [ aPane
 								addChild: (BrLabel new
 										aptitude: (BrGlamorousLabelAptitude new fontSize: 10);
-										text: (self message)) asScalableElement ] ];
+										text: self message) asScalableElement ] ];
 				yourself);
 		addChild: (BlElement new
 				layout: (BlLinearLayout horizontal alignTopCenter weightSum: 1);
@@ -109,7 +89,7 @@ PBTelemetrySignal >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight 
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> gtBeaconConsolidatedView: aView [
+PBTelemetryEvent >> gtBeaconConsolidatedView: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Consolidated';
@@ -118,10 +98,10 @@ PBTelemetrySignal >> gtBeaconConsolidatedView: aView [
 			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
-					assoc value first class == PBArgumentMethodStartSignal
+					assoc value first startSignal class == PBArgumentMethodStartSignal
 						ifTrue: [ assoc value: (PBArgumentMethodStartSignalGroup signals: assoc value) ].
-					"assoc value first class == PushUmlBeaconSignal
-						ifTrue: [ assoc value: (PushUmlBeaconSignalGroup signals: assoc value) ]" ].
+					assoc value first startSignal class == PushUmlSignal
+						ifTrue: [ assoc value: (PushUmlSignalGroup signals: assoc value) ] ].
 			groups ];
 		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];
@@ -133,7 +113,7 @@ PBTelemetrySignal >> gtBeaconConsolidatedView: aView [
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> gtBeaconMapView: aView [
+PBTelemetryEvent >> gtBeaconMapView: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Map';
@@ -143,30 +123,22 @@ PBTelemetrySignal >> gtBeaconMapView: aView [
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> gtSourceFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Source';
-		priority: 2;
-		object: [ GtLSPFileLocation new
-				lspFile: self file;
-				startPosition: (GtLSPPositionStructure new
-						line: self line - 1;
-						character: 0;
-						yourself);
-				endPosition: (GtLSPPositionStructure new
-						line: self line - 1;
-						character: (self file source lineNumber: self line) size;
-						yourself) ];
-		view: #gtLiveFor:
+PBTelemetryEvent >> message [
+	^ self newCommandFactory
+		<< (self => 'message');
+		sendAndWait
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> line [
-	^self attributeAt: #line
+PBTelemetryEvent >> signals [
+	^ self newCommandFactory
+		<< (self => 'signals');
+		sendAndWait
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> message [
-	^self attributeAt: #message
+PBTelemetryEvent >> startSignal [
+	^ self newCommandFactory
+		<< (self => 'startSignal');
+		sendAndWait
 ]

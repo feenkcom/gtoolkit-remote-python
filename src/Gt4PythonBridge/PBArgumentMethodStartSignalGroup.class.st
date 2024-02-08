@@ -1,5 +1,5 @@
 Class {
-	#name : #PBArgumentBeaconSignalGroup,
+	#name : #PBArgumentMethodStartSignalGroup,
 	#superclass : #Object,
 	#instVars : [
 		'signals'
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup class >> signals: aCollection [
+PBArgumentMethodStartSignalGroup class >> signals: aCollection [
 	^self new signals: aCollection 
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup >> first [
+PBArgumentMethodStartSignalGroup >> first [
 	^signals first
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup >> gtViewFor: aView [
+PBArgumentMethodStartSignalGroup >> gtViewFor: aView [
 	<gtView>
 	| view |
 	view := aView columnedList
@@ -26,22 +26,22 @@ PBArgumentBeaconSignalGroup >> gtViewFor: aView [
 			priority: 1;
 			items: [ signals ];
 			column: 'duration' text: [ :item | item duration ].
-	signals first args
-		keysDo: [ :each | view column: each text: [ :item | item args at: each ] ].
+	signals first startSignal args
+		keysDo: [ :each | view column: each text: [ :item | item startSignal args at: each ] ].
 	^ view
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup >> inject: aValue into: aBlock [
+PBArgumentMethodStartSignalGroup >> inject: aValue into: aBlock [
 	^signals inject: aValue into: aBlock
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup >> signals: aCollection [
+PBArgumentMethodStartSignalGroup >> signals: aCollection [
 	signals := aCollection
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignalGroup >> size [
+PBArgumentMethodStartSignalGroup >> size [
 	^signals size
 ]

@@ -1,15 +1,15 @@
 Class {
-	#name : #PBArgumentBeaconSignal,
+	#name : #PBArgumentMethodStartSignal,
 	#superclass : #PBMethodStartSignal,
 	#category : #'Gt4PythonBridge-Core'
 }
 
 { #category : #accessing }
-PBArgumentBeaconSignal class >> pythonClass [
-	^ #ArgumentBeaconSignal
+PBArgumentMethodStartSignal class >> pythonClass [
+	^ #ArgumentMethodStartSignal
 ]
 
 { #category : #accessing }
-PBArgumentBeaconSignal >> args [
+PBArgumentMethodStartSignal >> args [
 	^self attributeAt: #args
 ]
