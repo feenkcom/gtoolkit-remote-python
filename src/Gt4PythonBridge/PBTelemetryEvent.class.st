@@ -10,6 +10,11 @@ PBTelemetryEvent class >> pythonClass [
 ]
 
 { #category : #accessing }
+PBTelemetryEvent >> aggregateClass [
+	^self startSignal aggregateClass
+]
+
+{ #category : #accessing }
 PBTelemetryEvent >> gtBarElements [
 	^ self gtBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
@@ -98,10 +103,8 @@ PBTelemetryEvent >> gtBeaconConsolidatedView: aView [
 			groups := (self allChildren groupedBy: #message) associations.
 			groups
 				do: [ :assoc | 
-					assoc value first startSignal class == PBArgumentMethodStartSignal
-						ifTrue: [ assoc value: (PBArgumentMethodStartSignalGroup signals: assoc value) ].
-					assoc value first startSignal class == PushUmlSignal
-						ifTrue: [ assoc value: (PushUmlSignalGroup signals: assoc value) ] ].
+					assoc value first aggregateClass
+						ifNotNil: [ :cls | assoc value: (cls signals: assoc value) ] ].
 			groups ];
 		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];

@@ -10,6 +10,11 @@ PBTelemetry class >> pythonClass [
 ]
 
 { #category : #accessing }
+PBTelemetry >> aggregateClass [
+	^nil
+]
+
+{ #category : #accessing }
 PBTelemetry >> allChildren [
 	^ self children , (self children flatCollect: #children)
 ]

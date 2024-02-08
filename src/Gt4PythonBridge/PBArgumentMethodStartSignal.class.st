@@ -10,6 +10,11 @@ PBArgumentMethodStartSignal class >> pythonClass [
 ]
 
 { #category : #accessing }
+PBArgumentMethodStartSignal >> aggregateClass [
+	^PBArgumentMethodStartSignalGroup
+]
+
+{ #category : #accessing }
 PBArgumentMethodStartSignal >> args [
 	^self attributeAt: #args
 ]
