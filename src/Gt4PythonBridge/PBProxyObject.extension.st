@@ -26,9 +26,11 @@ PBProxyObject >> filterLocalProxyViews: localViews [
 PBProxyObject >> getViewProxy [
 	"Answer a GtViewedProxy on the receiver"
 
+	| gtPackage |
+	gtPackage := self application gtPackage => #gt.
 	^ self application newCommandFactory
-		<< (#gtoolkit asP3GI => #gt) import;
-		<< (#gtoolkit asP3GI => #gt => #GtViewedObject callWith: {self});
+		<< gtPackage import;
+		<< (gtPackage => #GtViewedObject callWith: { self });
 		sendAndWait
 ]
 
