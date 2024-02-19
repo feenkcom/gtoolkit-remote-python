@@ -18,3 +18,8 @@ PBArgumentMethodStartSignal >> aggregateClass [
 PBArgumentMethodStartSignal >> args [
 	^self attributeAt: #args
 ]
+
+{ #category : #accessing }
+PBArgumentMethodStartSignal >> kwargs [
+	^self attributeAt: #kwargs
+]
