@@ -32,3 +32,8 @@ PBTelemetry >> duration [
 		<< (self => #duration callWith: #());
 		sendAndWait
 ]
+
+{ #category : #accessing }
+PBTelemetry >> withAllChildren [
+	^ {self} , self allChildren
+]

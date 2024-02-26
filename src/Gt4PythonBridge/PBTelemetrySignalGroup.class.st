@@ -10,6 +10,11 @@ PBTelemetrySignalGroup class >> pythonClass [
 ]
 
 { #category : #accessing }
+PBTelemetrySignalGroup >> allChildren [
+	^self eventTree flatCollect: #withAllChildren
+]
+
+{ #category : #accessing }
 PBTelemetrySignalGroup >> eventTree [
 	^ self newCommandFactory
 		<< (self => #get_event_tree callWith: #());
@@ -26,10 +31,19 @@ PBTelemetrySignalGroup >> gtBarElements [
 { #category : #accessing }
 PBTelemetrySignalGroup >> gtBeaconConsolidatedView: aView [
 	<gtView>
-	^ aView forward
+	^ aView columnedList
 		title: 'Consolidated';
-		object: [ self signalList first ];
-		view: #gtBeaconConsolidatedView:
+		priority: 4;
+		items: [ | groups |
+			groups := (self allChildren groupedBy: #message) associations.
+			groups
+				do: [ :assoc | 
+					assoc value first aggregateClass
+						ifNotNil: [ :cls | assoc value: (cls signals: assoc value) ] ].
+			groups ];
+		send: [ :assoc | assoc value ];
+		column: 'Message' text: [ :item | item key ];
+		column: 'Count' text: [ :item | item value size ]
 ]
 
 { #category : #accessing }
@@ -53,12 +67,5 @@ PBTelemetrySignalGroup >> gtConsolidatedBarElements [
 PBTelemetrySignalGroup >> signalList [
 	^ self newCommandFactory
 		<< (self => #get_signals callWith: #());
-		sendAndWait
-]
-
-{ #category : #accessing }
-PBTelemetrySignalGroup >> signalTree [
-	^ self newCommandFactory
-		<< (self => #get_signal_tree callWith: #());
 		sendAndWait
 ]
