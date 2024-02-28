@@ -15,6 +15,13 @@ PBTelemetryEvent >> aggregateClass [
 ]
 
 { #category : #accessing }
+PBTelemetryEvent >> endSignal [
+	^ self newCommandFactory
+		<< (self => 'endSignal');
+		sendAndWait
+]
+
+{ #category : #accessing }
 PBTelemetryEvent >> gtBarElements [
 	^ self gtBarElementsWithGlobalWeight: 1.0 local: 1.0
 ]
