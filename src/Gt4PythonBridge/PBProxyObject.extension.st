@@ -187,7 +187,7 @@ PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> unwrapPrimitiveTypes [
-	^ self application commandFactory
+	^ self application newCommandFactory
 		<< self;
 		sendAndWait
 ]
