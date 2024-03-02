@@ -133,6 +133,16 @@ PBTelemetryEvent >> gtBeaconMapView: aView [
 ]
 
 { #category : #accessing }
+PBTelemetryEvent >> gtSourceFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Source';
+		priority: 2;
+		object: [self startSignal];
+		view: #gtSourceFor:
+]
+
+{ #category : #accessing }
 PBTelemetryEvent >> message [
 	^ self newCommandFactory
 		<< (self => 'message');

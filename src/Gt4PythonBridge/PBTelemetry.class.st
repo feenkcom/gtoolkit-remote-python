@@ -16,7 +16,9 @@ PBTelemetry >> aggregateClass [
 
 { #category : #accessing }
 PBTelemetry >> allChildren [
-	^ self children , (self children flatCollect: #children)
+	^ self children
+		, (self children
+				flatCollect: [ :each | [ each children ] onErrorDo: [ :ex | #() ] ])
 ]
 
 { #category : #accessing }
