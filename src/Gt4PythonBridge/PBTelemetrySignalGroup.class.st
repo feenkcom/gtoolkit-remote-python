@@ -33,11 +33,15 @@ PBTelemetrySignalGroup >> gtBeaconConsolidatedView: aView [
 		title: 'Consolidated';
 		priority: 4;
 		items: [ | groups |
-			groups := (self allChildren groupedBy: #message) associations.
+			groups := (self allChildren groupedBy: [ :each | each attributeAt: #message ])
+					associations.
 			groups
 				do: [ :assoc | 
-					assoc value first aggregateClass
-						ifNotNil: [ :cls | assoc value: (cls signals: assoc value) ] ].
+					| anEvent |
+					anEvent := assoc value first.
+					(anEvent respondsTo: #aggregateClass)
+						ifTrue: [ anEvent aggregateClass
+								ifNotNil: [ :cls | assoc value: (cls signals: assoc value) ] ] ].
 			groups ];
 		send: [ :assoc | assoc value ];
 		column: 'Message' text: [ :item | item key ];
