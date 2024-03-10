@@ -41,7 +41,7 @@ PBTelemetryEvent >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 						| eachWeight |
 						eachWeight := myDuration isZero
 								ifTrue: [ 0 ]
-								ifFalse: [ (anEvent duration / myDuration) asFloat ].
+								ifFalse: [ ((anEvent callMethod: #duration) / myDuration) asFloat ].
 						(anEvent
 							gtBarElementsWithGlobalWeight: eachWeight * aWeight
 							local: eachWeight)
