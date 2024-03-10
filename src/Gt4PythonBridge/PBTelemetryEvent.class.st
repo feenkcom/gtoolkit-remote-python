@@ -16,9 +16,7 @@ PBTelemetryEvent >> aggregateClass [
 
 { #category : #accessing }
 PBTelemetryEvent >> endSignal [
-	^ self newCommandFactory
-		<< (self => 'endSignal');
-		sendAndWait
+	^ self attributeAt: #endSignal
 ]
 
 { #category : #accessing }
@@ -144,21 +142,15 @@ PBTelemetryEvent >> gtSourceFor: aView [
 
 { #category : #accessing }
 PBTelemetryEvent >> message [
-	^ self newCommandFactory
-		<< (self => 'message');
-		sendAndWait
+	^ self attributeAt: #message
 ]
 
 { #category : #accessing }
 PBTelemetryEvent >> signals [
-	^ self newCommandFactory
-		<< (self => 'signals');
-		sendAndWait
+	^ self attributeAt: #signals
 ]
 
 { #category : #accessing }
 PBTelemetryEvent >> startSignal [
-	^ self newCommandFactory
-		<< (self => 'startSignal');
-		sendAndWait
+	^ self attributeAt: #startSignal
 ]

@@ -16,9 +16,7 @@ PBTelemetrySignalGroup >> allChildren [
 
 { #category : #accessing }
 PBTelemetrySignalGroup >> eventTree [
-	^ self newCommandFactory
-		<< (self => #get_event_tree callWith: #());
-		sendAndWait
+	^ self callMethod: #get_event_tree
 ]
 
 { #category : #accessing }
@@ -52,8 +50,7 @@ PBTelemetrySignalGroup >> gtBeaconMapView: aView [
 	^ aView explicit
 		title: 'Map';
 		priority: 3;
-		stencil: [  self
-				gtBarElements ] 
+		stencil: [ self gtBarElements ]
 ]
 
 { #category : #accessing }
@@ -65,7 +62,5 @@ PBTelemetrySignalGroup >> gtConsolidatedBarElements [
 
 { #category : #accessing }
 PBTelemetrySignalGroup >> signalList [
-	^ self newCommandFactory
-		<< (self => #get_signals callWith: #());
-		sendAndWait
+	^ self callMethod: #get_signals
 ]

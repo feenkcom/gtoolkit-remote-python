@@ -23,16 +23,12 @@ PBTelemetry >> allChildren [
 
 { #category : #accessing }
 PBTelemetry >> children [
-	^ self newCommandFactory
-		<< (self => 'children' callWith: #());
-		sendAndWait
+	^ self callMethod: #children
 ]
 
 { #category : #accessing }
 PBTelemetry >> duration [
-	^ self newCommandFactory
-		<< (self => #duration callWith: #());
-		sendAndWait
+	^ self callMethod: #duration
 ]
 
 { #category : #accessing }
