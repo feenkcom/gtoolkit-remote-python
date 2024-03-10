@@ -10,15 +10,6 @@ PBTelemetrySignal class >> pythonClass [
 ]
 
 { #category : #accessing }
-PBTelemetrySignal >> attributeAt: attributeString [
-	"Answer the value of the named attribute"
-
-	^ self newCommandFactory
-		<< (self => attributeString);
-		sendAndWait
-]
-
-{ #category : #accessing }
 PBTelemetrySignal >> file [
 	| filename model |
 	filename := (self attributeAt: #file) asFileReference.

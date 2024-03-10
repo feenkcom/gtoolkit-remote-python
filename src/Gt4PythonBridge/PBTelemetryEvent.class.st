@@ -16,9 +16,7 @@ PBTelemetryEvent >> aggregateClass [
 
 { #category : #accessing }
 PBTelemetryEvent >> endSignal [
-	^ self newCommandFactory
-		<< (self => 'endSignal');
-		sendAndWait
+	^ self attributeAt: #endSignal
 ]
 
 { #category : #accessing }
@@ -43,7 +41,7 @@ PBTelemetryEvent >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 						| eachWeight |
 						eachWeight := myDuration isZero
 								ifTrue: [ 0 ]
-								ifFalse: [ (anEvent duration / myDuration) asFloat ].
+								ifFalse: [ ((anEvent callMethod: #duration) / myDuration) asFloat ].
 						(anEvent
 							gtBarElementsWithGlobalWeight: eachWeight * aWeight
 							local: eachWeight)
@@ -144,21 +142,15 @@ PBTelemetryEvent >> gtSourceFor: aView [
 
 { #category : #accessing }
 PBTelemetryEvent >> message [
-	^ self newCommandFactory
-		<< (self => 'message');
-		sendAndWait
+	^ self attributeAt: #message
 ]
 
 { #category : #accessing }
 PBTelemetryEvent >> signals [
-	^ self newCommandFactory
-		<< (self => 'signals');
-		sendAndWait
+	^ self attributeAt: #signals
 ]
 
 { #category : #accessing }
 PBTelemetryEvent >> startSignal [
-	^ self newCommandFactory
-		<< (self => 'startSignal');
-		sendAndWait
+	^ self attributeAt: #startSignal
 ]
