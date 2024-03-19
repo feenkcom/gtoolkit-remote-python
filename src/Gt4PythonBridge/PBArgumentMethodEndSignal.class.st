@@ -6,5 +6,5 @@ Class {
 
 { #category : #accessing }
 PBArgumentMethodEndSignal class >> pythonClass [
-	^#ArgumentMethodEndSignal
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.ArgumentMethodEndSignal'
 ]

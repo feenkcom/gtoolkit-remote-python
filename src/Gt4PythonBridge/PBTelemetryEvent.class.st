@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 PBTelemetryEvent class >> pythonClass [
-	^#TelemetryEvent
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.TelemetryEvent'
 ]
 
 { #category : #accessing }

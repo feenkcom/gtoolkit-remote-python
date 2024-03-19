@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtPythonTextDataSource class >> pythonClass [
-	^ #GtPhlowTextDataSource
+	^ 'gtoolkit_bridge.gtoolkit.phlow.data_source.GtPhlowTextDataSource'
 ]
 
 { #category : #accessing }

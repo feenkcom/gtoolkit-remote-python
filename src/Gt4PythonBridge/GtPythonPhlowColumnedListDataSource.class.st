@@ -6,5 +6,5 @@ Class {
 
 { #category : #accessing }
 GtPythonPhlowColumnedListDataSource class >> pythonClass [
-	^ #GtPhlowColumnedListDataSource
+	^ 'gtoolkit_bridge.gtoolkit.phlow.data_source.GtPhlowColumnedListDataSource'
 ]

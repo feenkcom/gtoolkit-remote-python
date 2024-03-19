@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 PBMethodStartSignal class >> pythonClass [
-	^ #MethodStartSignal
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.MethodStartSignal'
 ]
 
 { #category : #accessing }
