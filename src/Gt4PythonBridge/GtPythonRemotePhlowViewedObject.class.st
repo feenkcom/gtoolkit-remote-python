@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtPythonRemotePhlowViewedObject class >> pythonClass [
-	^ #GtViewedObject
+	^ 'gtoolkit_bridge.gtoolkit.gt.GtViewedObject'
 ]
 
 { #category : #accessing }

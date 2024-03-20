@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 PBArgumentMethodStartSignal class >> pythonClass [
-	^ #ArgumentMethodStartSignal
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.ArgumentMethodStartSignal'
 ]
 
 { #category : #accessing }

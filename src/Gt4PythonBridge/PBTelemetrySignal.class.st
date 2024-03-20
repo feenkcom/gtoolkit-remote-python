@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 PBTelemetrySignal class >> pythonClass [
-	^ #TelemetrySignal
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.TelemetrySignal'
 ]
 
 { #category : #accessing }

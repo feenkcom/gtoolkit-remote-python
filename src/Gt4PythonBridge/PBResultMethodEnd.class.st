@@ -6,5 +6,5 @@ Class {
 
 { #category : #accessing }
 PBResultMethodEnd class >> pythonClass [
-	^#ResultMethodEndSignal
+	^ 'gtoolkit_bridge.PythonBridge.telemetry.ResultMethodEndSignal'
 ]

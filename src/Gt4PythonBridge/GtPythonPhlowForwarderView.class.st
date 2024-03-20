@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtPythonPhlowForwarderView class >> pythonClass [
-	^ #ForwardView
+	^ 'gtoolkit_bridge.gtoolkit.phlow.view_forward.ForwardView'
 ]
 
 { #category : #accessing }
