@@ -184,7 +184,7 @@ PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 			| view func |
 			view := declarativeView viewFor: aView.
 			[ func := self attributeAt: declarativeView methodSelector.
-			view definingMethod: (func gtSourceFor: aView empty) ] on: Exception do: [  ].
+			view definingMethod: func ] on: Exception do: [  ].
 			view ] ] on: LanguageLinkServerNotRunningError do: [ #() ]
 ]
 
