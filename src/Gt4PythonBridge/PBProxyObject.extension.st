@@ -179,10 +179,13 @@ PBProxyObject >> remoteClass [
 PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 	"Should be all views, but just get Raw and Print views for now"
 
-	^ [ self declarativeViews collect: [ :declarativeView | declarativeView viewFor: aView ] ]
-		on: LanguageLinkServerNotRunningError
-		do: [ #() ].
-
+	^ [ self declarativeViews
+		collect: [ :declarativeView | 
+			| view func |
+			view := declarativeView viewFor: aView.
+			[ func := self attributeAt: declarativeView methodSelector.
+			view definingMethod: (func gtSourceFor: aView empty) ] on: Exception do: [  ].
+			view ] ] on: LanguageLinkServerNotRunningError do: [ #() ]
 ]
 
 { #category : #'*Gt4PythonBridge' }
