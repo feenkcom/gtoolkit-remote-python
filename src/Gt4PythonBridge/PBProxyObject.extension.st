@@ -53,15 +53,17 @@ PBProxyObject >> gtActionDownloadFor: anAction [
 PBProxyObject >> gtDefaultInspectorTool [
 	^ GtPhlowCompositeTool new
 		addTool: (self gtRemoteSideInspectorTool
-			name: 'Remote';
-			playgroundPageStrategy: (LeInspectorPlaygroundProxyClassPageStrategy
-				forRemoteProxySide);
-			withLabelAndIconAptitude);
+				name: 'Remote';
+				playgroundPageStrategy: LeInspectorPlaygroundProxyClassPageStrategy forRemoteProxySide;
+				withLabelAndIconAptitude);
 		addTool: (super gtDefaultInspectorTool
-			name: 'Proxy';
-			playgroundPageStrategy: (LeInspectorPlaygroundProxyClassPageStrategy
-				forLocalProxySide);
-			withLabelAndIconAptitude)
+				name: 'Proxy';
+				playgroundPageStrategy: LeInspectorPlaygroundProxyClassPageStrategy forLocalProxySide;
+				withLabelAndIconAptitude);
+		addTool: (GtPhlowTool default
+				object: self application;
+				name: 'Runtime';
+				withLabelAndIconAptitude)
 ]
 
 { #category : #'*Gt4PythonBridge' }
