@@ -5,7 +5,7 @@ PBProxyObject >> declarativeViews [
 	"Answer the views for the receiver"
 	| rawViews |
 
-	self viewProxyDo: [ :remoteInspectorProxy |
+	self remoteInspectorProxyDo: [ :remoteInspectorProxy |
 		rawViews := remoteInspectorProxy getViewsDeclarations collect: [ :viewDictionary |
 			| declarativeView |
 			declarativeView := GtPhlowViewSpecification fromDictionary: viewDictionary.
@@ -23,7 +23,7 @@ PBProxyObject >> filterLocalProxyViews: localViews [
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getViewProxy [
+PBProxyObject >> getRemoteInspectorProxy [
 	"Answer a GtViewedProxy on the receiver"
 
 	| gtPackage |
@@ -178,6 +178,17 @@ PBProxyObject >> remoteClass [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> remoteInspectorProxyDo: aBlock [
+	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
+
+	| viewProxy |
+	viewProxy := pythonClass = #GtViewedObject
+			ifTrue: [ self ]
+			ifFalse: [ self getRemoteInspectorProxy ].
+	^ aBlock value: viewProxy
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 	"Should be all views, but just get Raw and Print views for now"
 
@@ -195,15 +206,4 @@ PBProxyObject >> unwrapPrimitiveTypes [
 	^ self application newCommandFactory
 		<< self;
 		sendAndWait
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> viewProxyDo: aBlock [
-	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
-
-	| viewProxy |
-	viewProxy := pythonClass = #GtViewedObject
-			ifTrue: [ self ]
-			ifFalse: [ self getViewProxy ].
-	^ aBlock value: viewProxy
 ]
