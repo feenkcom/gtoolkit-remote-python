@@ -19,7 +19,7 @@ PBProxyObject >> declarativeViews [
 PBProxyObject >> filterLocalProxyViews: localViews [ 
 	"When showing local views for the object, we remove all views where the method is annotated with gtProxy. Those views will only be shown for the proxy object."
 	^ localViews reject: [ :each |
-		each definingMethod compiledMethod hasPragmaNamed: #gtProxy ].
+		each definingMethod compiledMethod hasPragmaNamed: #gtProxyView ].
 ]
 
 { #category : #'*Gt4PythonBridge' }
@@ -81,22 +81,25 @@ PBProxyObject >> gtLocalViewsFor: aView inContext: aContext [
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtMetaFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtMetaFor: aView
 ]
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtPrintFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtPrintFor: aView
 ]
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRawFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtRawFor: aView
 ]
 
@@ -132,8 +135,8 @@ PBProxyObject >> gtRemoteSideInspectorTool [
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRemoteViewSpecificationsFor: aView [
-	<gtProxy>
-	<gtView>
+	<gtProxyView>
+	
 	^ aView columnedList
 		title: 'Remote view specifications';
 		priority: 10001;
