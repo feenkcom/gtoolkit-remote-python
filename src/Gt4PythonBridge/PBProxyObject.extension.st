@@ -101,6 +101,24 @@ PBProxyObject >> gtRawFor: aView [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteInspectorContentFor: aView [
+	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
+
+	<return: #GtPhlowLabelledView>
+	^ GtPhlowLabelledViewBuilder new
+		object: self;
+		view: aView;
+		context: GtPhlowContext new;
+		viewsSelector: #gtViewsForRemoteSideInContext:;
+		titleComputation: [ String
+				streamContents: [ :stream | 
+					stream
+						<< (pythonClass first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]);
+						<< (pythonClass ifNil: [ '<None>' ]) ] ];
+		build
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRemoteSideInitialPlaygroundSnippet [
 	^ LePythonSnippet new
 ]
@@ -109,7 +127,7 @@ PBProxyObject >> gtRemoteSideInitialPlaygroundSnippet [
 PBProxyObject >> gtRemoteSideInspectorTool [
 	^ GtInspectorTool 
 		forObject: self 
-		viewSelector: #gtRemoteViewsFor: 
+		viewSelector: #gtRemoteInspectorContentFor: 
 ]
 
 { #category : #'*Gt4PythonBridge' }
@@ -126,24 +144,6 @@ PBProxyObject >> gtRemoteViewSpecificationsFor: aView [
 		column: 'Priority' text: [ :aViewAccessor | aViewAccessor priority ] weight: 0.5;
 		column: 'Transport' text: [ :aViewAccessor | aViewAccessor dataTransport ] weight: 0.5;
 		send: [ :aDeclarativeView | aDeclarativeView ]
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtRemoteViewsFor: aView [
-	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
-
-	<return: #GtPhlowLabelledView>
-	^ GtPhlowLabelledViewBuilder new
-		object: self;
-		view: aView;
-		context: GtPhlowContext new;
-		viewsSelector: #gtViewsForRemoteSideInContext:;
-		titleComputation: [ String
-				streamContents: [ :stream | 
-					stream
-						<< (pythonClass first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]);
-						<< (pythonClass ifNil: [ '<None>' ]) ] ];
-		build
 ]
 
 { #category : #'*Gt4PythonBridge' }
