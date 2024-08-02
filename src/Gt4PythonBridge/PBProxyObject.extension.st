@@ -5,7 +5,7 @@ PBProxyObject >> declarativeViews [
 	"Answer the views for the receiver"
 	| rawViews |
 
-	self viewProxyDo: [ :remoteInspectorProxy |
+	self remoteInspectorProxyDo: [ :remoteInspectorProxy |
 		rawViews := remoteInspectorProxy getViewsDeclarations collect: [ :viewDictionary |
 			| declarativeView |
 			declarativeView := GtPhlowViewSpecification fromDictionary: viewDictionary.
@@ -19,11 +19,11 @@ PBProxyObject >> declarativeViews [
 PBProxyObject >> filterLocalProxyViews: localViews [ 
 	"When showing local views for the object, we remove all views where the method is annotated with gtProxy. Those views will only be shown for the proxy object."
 	^ localViews reject: [ :each |
-		each definingMethod compiledMethod hasPragmaNamed: #gtProxy ].
+		each definingMethod compiledMethod hasPragmaNamed: #gtProxyView ].
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> getViewProxy [
+PBProxyObject >> getRemoteInspectorProxy [
 	"Answer a GtViewedProxy on the receiver"
 
 	| gtPackage |
@@ -81,55 +81,30 @@ PBProxyObject >> gtLocalViewsFor: aView inContext: aContext [
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtMetaFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtMetaFor: aView
 ]
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtPrintFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtPrintFor: aView
 ]
 
 { #category : #'*Gt4PythonBridge' }
 PBProxyObject >> gtRawFor: aView [
-	<gtProxy>
+	<gtProxyView>
 	<gtView>
+	
 	^ super gtRawFor: aView
 ]
 
 { #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtRemoteSideInitialPlaygroundSnippet [
-	^ LePythonSnippet new
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtRemoteSideInspectorTool [
-	^ GtInspectorTool 
-		forObject: self 
-		viewSelector: #gtRemoteViewsFor: 
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtRemoteViewSpecificationsFor: aView [
-	<gtProxy>
-	<gtView>
-	^ aView columnedList
-		title: 'Remote view specifications';
-		priority: 10001;
-		items: [ self declarativeViews sorted: #priority ascending];
-		column: 'Title' text: [ :aViewAccessor | aViewAccessor title ];
-		column: 'Selector' text: [ :aViewAccessor | aViewAccessor methodSelector ];
-		column: 'View' text: [ :aViewAccessor | aViewAccessor viewName ];
-		column: 'Priority' text: [ :aViewAccessor | aViewAccessor priority ] weight: 0.5;
-		column: 'Transport' text: [ :aViewAccessor | aViewAccessor dataTransport ] weight: 0.5;
-		send: [ :aDeclarativeView | aDeclarativeView ]
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> gtRemoteViewsFor: aView [
+PBProxyObject >> gtRemoteInspectorContentFor: aView [
 	"This is the default entry method for retrieving the wrapper view containing all non-proxy views for the object."
 
 	<return: #GtPhlowLabelledView>
@@ -144,6 +119,34 @@ PBProxyObject >> gtRemoteViewsFor: aView [
 						<< (pythonClass first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]);
 						<< (pythonClass ifNil: [ '<None>' ]) ] ];
 		build
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteSideInitialPlaygroundSnippet [
+	^ LePythonSnippet new
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteSideInspectorTool [
+	^ GtInspectorTool 
+		forObject: self 
+		viewSelector: #gtRemoteInspectorContentFor: 
+]
+
+{ #category : #'*Gt4PythonBridge' }
+PBProxyObject >> gtRemoteViewSpecificationsFor: aView [
+	<gtProxyView>
+	
+	^ aView columnedList
+		title: 'Remote view specifications';
+		priority: 10001;
+		items: [ self declarativeViews sorted: #priority ascending];
+		column: 'Title' text: [ :aViewAccessor | aViewAccessor title ];
+		column: 'Selector' text: [ :aViewAccessor | aViewAccessor methodSelector ];
+		column: 'View' text: [ :aViewAccessor | aViewAccessor viewName ];
+		column: 'Priority' text: [ :aViewAccessor | aViewAccessor priority ] weight: 0.5;
+		column: 'Transport' text: [ :aViewAccessor | aViewAccessor dataTransport ] weight: 0.5;
+		send: [ :aDeclarativeView | aDeclarativeView ]
 ]
 
 { #category : #'*Gt4PythonBridge' }
@@ -178,6 +181,17 @@ PBProxyObject >> remoteClass [
 ]
 
 { #category : #'*Gt4PythonBridge' }
+PBProxyObject >> remoteInspectorProxyDo: aBlock [
+	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
+
+	| viewProxy |
+	viewProxy := pythonClass = #GtViewedObject
+			ifTrue: [ self ]
+			ifFalse: [ self getRemoteInspectorProxy ].
+	^ aBlock value: viewProxy
+]
+
+{ #category : #'*Gt4PythonBridge' }
 PBProxyObject >> remoteViewsFor: aView inContext: aContext [
 	"Should be all views, but just get Raw and Print views for now"
 
@@ -195,15 +209,4 @@ PBProxyObject >> unwrapPrimitiveTypes [
 	^ self application newCommandFactory
 		<< self;
 		sendAndWait
-]
-
-{ #category : #'*Gt4PythonBridge' }
-PBProxyObject >> viewProxyDo: aBlock [
-	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
-
-	| viewProxy |
-	viewProxy := pythonClass = #GtViewedObject
-			ifTrue: [ self ]
-			ifFalse: [ self getViewProxy ].
-	^ aBlock value: viewProxy
 ]
