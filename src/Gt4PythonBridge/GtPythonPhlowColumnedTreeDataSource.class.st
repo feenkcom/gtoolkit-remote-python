@@ -17,6 +17,13 @@ GtPythonPhlowColumnedTreeDataSource >> retrieveChildrenForNodeAtPath: aNodePath 
 ]
 
 { #category : #accessing }
+GtPythonPhlowColumnedTreeDataSource >> retrieveSentItemAtPath: aNodePath [
+	^ self newCommandFactory
+		<< (self => #retriveSentItemAtPath callWith: {aNodePath});
+		sendAndWait
+]
+
+{ #category : #accessing }
 GtPythonPhlowColumnedTreeDataSource >> retriveSentItemAtPath: aNodePath [
 	^ self newCommandFactory
 		<< (self => #retriveSentItemAtPath callWith: {aNodePath});
