@@ -38,7 +38,7 @@ PBProxyObject >> getRemoteInspectorProxy [
 PBProxyObject >> gtActionDownloadFor: anAction [
 	<gtAction>
 
-	(#(int str bool float) includes: self remoteClass) 
+	(#('int' 'str' 'bool' 'float') includes: self remoteClass) 
 		ifFalse: [ ^ anAction noAction ].
 	
 	^ anAction button
@@ -185,7 +185,7 @@ PBProxyObject >> remoteInspectorProxyDo: aBlock [
 	"Evaluate the supplied block ensuring that the receiver is a GtViewedObject"
 
 	| viewProxy |
-	viewProxy := pythonClass = #GtViewedObject
+	viewProxy := pythonClass = 'GtViewedObject'
 			ifTrue: [ self ]
 			ifFalse: [ self getRemoteInspectorProxy ].
 	^ aBlock value: viewProxy
